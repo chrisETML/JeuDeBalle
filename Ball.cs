@@ -30,7 +30,7 @@ namespace JeuDeBalle
         /// <summary>
         /// Pas de temps pour la simulation
         /// </summary>
-        private const float TIME_STEP = 0.2f;
+        private const float TIME_STEP = 0.6f;
 
         /// <summary>
         /// Représente la balle
@@ -83,6 +83,7 @@ namespace JeuDeBalle
             {
                 Console.SetCursorPosition((int)LastPosition.Value.X, (int)LastPosition.Value.Y);
                 Console.Write(' ');
+                
             }
 
             // Affiche la balle à la nouvelle position

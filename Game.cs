@@ -70,10 +70,10 @@ namespace JeuDeBalle
         public Game()
         {
             Player1 = new Player(10,33, ConsoleColor.Red);
-            Player2 = new Player(100,33, ConsoleColor.Cyan);
+            Player2 = new Player(20,33, ConsoleColor.Cyan);
 
-            Building1 = new Building(width: 5, height: 5, owner: Player1, true);
-            Building2 = new Building(width: 5, height: 5, owner: Player2, false);
+            //Building1 = new Building(width: 5, height: 5, owner: Player1, true);
+            //Building2 = new Building(width: 5, height: 5, owner: Player2, false);
 
             Ball = new Ball();
 
@@ -88,7 +88,7 @@ namespace JeuDeBalle
         public void StartGame()
         {
             IsGameOver = false;
-            Console.WriteLine("Le jeu commence !");
+            Console.WriteLine($"Le jeu commence ! PV:{Player1.LifePoints}");
 
             // Affiche les joueurs     
             DisplayPlayers();

@@ -60,28 +60,7 @@ namespace JeuDeBalle
         /// <param name="currentPlayer">Le joueur qui joue actuellement.</param>
         public void HandleBallCollisionWithPlayer(Player player, Vector2 ballPosition, Player currentPlayer)
         {
-            // On parcourt chaque caractère du joueur en fonction de sa forme (CARACTER)
-            for (int dy = 0; dy < player.CARACTER.Length; ++dy) // Hauteur de la forme du joueur (3)
-            {
-                for (int dx = 0; dx < player.CARACTER[dy].Length; ++dx) // Largeur de la forme du joueur
-                {
-                    // Calcul de la position de chaque caractère (case) du joueur
-                    int x = (int)(player.ConsolePosition.X + dx);
-                    int y = (int)(player.ConsolePosition.Y + dy);
-
-                    // Vérifier si la balle touche cette case
-                    if (ballPosition.X >= x && ballPosition.X < x + 1 && ballPosition.Y >= y && ballPosition.Y < y + 1)
-                    {
-                        // La balle a touché un caractère du joueur
-                        if (Game.Damageables.Contains(player))
-                        {
-                            player.TakeDamage(1);
-                            currentPlayer.Heal(1); 
-                            break;  // Arrêter la boucle une fois qu'il y a une collision
-                        }
-                    }
-                }
-            }
+           
         }
         /// <summary>
         /// Remet à zéro les valeur pour la balle 
