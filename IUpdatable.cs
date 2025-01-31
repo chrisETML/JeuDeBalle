@@ -10,7 +10,7 @@ namespace JeuDeBalle
     internal interface IUpdatable
     {
         /// <summary>
-        /// Prototype de méthode qui permet de mettre à jour l'objet
+        /// Permet de mettre à jour l'objet
         /// </summary>
         void Update();
     }

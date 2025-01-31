@@ -32,7 +32,7 @@ namespace JeuDeBalle
         /// </summary>
         public readonly string[] CARACTER =
         {
-            " \u263A",
+            "●\u263A",
             @"-|-",
             @"´ `"
         };
@@ -73,6 +73,11 @@ namespace JeuDeBalle
         /// <param name="amount">Nombre de point de vie récupéré</param>
         public void Heal<T>(T amount) where T : IConvertible => LifePoints += Convert.ToByte(amount);
                 
+        /// <summary>
+        /// Verifie si le joueur collisionne avec un autre objet
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Distance euclidienne entre 2 positions</returns>
         public bool CheckCollision(Vector2 position)
         {
             float collisionRadius = 1.0f; // Rayon fictif pour détecter la collision

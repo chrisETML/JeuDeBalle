@@ -12,13 +12,44 @@ namespace JeuDeBalle
 {
     internal class Ball : IUpdatable
     {
+        /// <summary>
+        /// Position de la balle
+        /// </summary>
         public Vector2 Position { get; set; }
+
+        /// <summary>
+        /// Vitesse de la balle 
+        /// </summary>
         public Vector2 Velocity { get; set; }
-        private const float GRAVITY = 0.5f;   // Gravité constante
-        private const float TIME_STEP = 0.2f;  // Pas de temps pour la simulation
-        private const char BALL_FORM = '●';   // Représente la balle
-        public Vector2? LastPosition { get; set; } // Stocker la dernière position pour l'effacement
-        public bool IsDestroyed { get; set; } // Savoir si la balle est détruite lorsqu'elle a fini son parcours
+
+        /// <summary>
+        /// Gravité constante
+        /// </summary>
+        private const float GRAVITY = 0.5f;
+
+        /// <summary>
+        /// Pas de temps pour la simulation
+        /// </summary>
+        private const float TIME_STEP = 0.2f;
+
+        /// <summary>
+        /// Représente la balle
+        /// </summary>
+        private const char BALL_FORM = '●';
+
+        /// <summary>
+        /// Stocker la dernière position pour l'effacement
+        /// </summary>
+        public Vector2? LastPosition { get; set; }
+
+        /// <summary>
+        /// Savoir si la balle est détruite lorsqu'elle a fini son parcours
+        /// </summary>
+        public bool IsDestroyed { get; set; }
+
+        /// <summary>
+        /// Constructeur de la balle
+        /// </summary>
         public Ball()
         {
             Position = Vector2.Zero;
@@ -81,11 +112,80 @@ namespace JeuDeBalle
             );            
         }
 
+        /// <summary>
+        /// Détruire la balle
+        /// </summary>
         public void Destroy()
         {
             IsDestroyed = true;
             Console.SetCursorPosition((int)Position.X, (int)Position.Y);
             Console.Write(' ');
+        }
+
+        /// <summary>
+        /// Simule le mouvement de la balle en vérifiant les collisions avec les bâtiments et les joueurs.
+        /// Cette méthode continue jusqu'à ce que la balle soit détruite ou que certaines conditions de sortie soient remplies.
+        /// </summary>
+        /// <param name="currentPlayer">Le joueur qui a son tour</param>
+        /// <param name="opponent">L'adversaire du joueur actuel.</param>
+        /// <param name="opponentBuilding">Le bâtiment de l'adversaire</param>
+        /// <param name="gameManager">Le gestionnaire de jeu qui gère la logique</param>
+        public void SimulateBall(Player currentPlayer, Player opponent, Building opponentBuilding, GameManager gameManager)
+        {
+            while (!IsDestroyed)
+            {
+                // Met à jour et affiche la balle
+                Update();
+                Display();
+
+                // Vérifie les collisions avec tous les objets dans Collidables
+                foreach (ICollidable collidable in Game.Collidables)
+                {
+                    if (collidable is Building building)
+                    {
+                        // Vérifier si la balle touche le bâtiment
+                        if (building.CheckCollision(Position))
+                        {
+                            // Verifier que le building et collisionnable et dommageable
+                            if (Game.Damageables.Contains(building))
+                            {
+                                // Si le bâtiment appartient à currentPlayer ou opponent
+                                if (building.Owner == currentPlayer || building.Owner == opponent)
+                                {
+                                    gameManager.HandleBallCollisionWithBuilding(building, Position, currentPlayer);
+                                    Destroy(); // Détruire la balle après la collision
+                                    building.Update();
+                                }
+                            }
+                        }
+                    }
+                    else if (collidable is Player player)
+                    {
+                        // Vérifier si la balle touche un joueur
+                        if (player.CheckCollision(Position))
+                        {
+                            if (Game.Collidables.Contains(player) && Game.Damageables.Contains(player))
+                            {
+                                gameManager.HandleBallCollisionWithPlayer(player,Position,currentPlayer);
+                                player.TakeDamage(1);
+                                currentPlayer.Heal(1);
+                                Destroy(); // Détruire la balle après la collision
+                                break;  // Arrêter la boucle dès qu'il y a collision
+                            }
+                        }
+                    }
+                }
+
+                // Vérifie si la balle sort du terrain
+                if (Position.X < 0 || Position.X >= Console.WindowWidth || Position.Y >= Console.WindowHeight)
+                {
+                    break;
+                }
+
+                // Pause pour ralentir l'animation
+                System.Threading.Thread.Sleep(50);
+            }
+
         }
     }
 }

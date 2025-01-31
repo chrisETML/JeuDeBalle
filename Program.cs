@@ -17,12 +17,15 @@ namespace JeuDeBalle
         static void Main()
         {
 
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = System.Text.Encoding.UTF8; // Pour afficher le smiley du player
             Console.CursorVisible = false;
-            Console.SetWindowSize(150,40);
+            Console.SetWindowSize(150,40); // Taille de la fenêtre console
 
-            ConsoleKey press = ConsoleKey.Spacebar;
+            Console.SetCursorPosition(0,36);
+            Console.WriteLine("---------------------------------------------------" +
+                "-------------------------------------------------------------------------------------------------"); // Affiche le sol
 
+            ConsoleKey press = ConsoleKey.Spacebar;            
 
             // Initialisation du jeu
             Game game = new Game();

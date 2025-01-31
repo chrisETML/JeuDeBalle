@@ -9,31 +9,68 @@ Gère les débuts, les fins et le déroulement général du jeu.
 
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 
 namespace JeuDeBalle
 {
     internal class Game
     {
+        /// <summary>
+        /// Joueur 1
+        /// </summary>
         public Player Player1 { get; set; }
+
+        /// <summary>
+        /// Joueur 2
+        /// </summary>
         public Player Player2 { get; set; }
+
+        /// <summary>
+        /// Bâtiment du joueur 1
+        /// </summary>
         public Building Building1 { get; set; }
+
+        /// <summary>
+        /// Bâtiment du joueur 2
+        /// </summary>
         public Building Building2 { get; set; }
+
+        /// <summary>
+        /// Balle qui traverse le jeu
+        /// </summary>
         public Ball Ball { get; set; }
+
+        /// <summary>
+        /// Est ce que le jeu est terminé
+        /// </summary>
         public bool IsGameOver { get; private set; }
+
+        /// <summary>
+        /// Liste des objets pouvant être mis à jour
+        /// </summary>
         public static List<IUpdatable> Updatables { get; private set; } = new List<IUpdatable>();
+
+        /// <summary>
+        /// Liste des objets dommageable
+        /// </summary>
         public static List<IDamageable> Damageables { get; private set; } = new List<IDamageable>();
+
+        /// <summary>
+        /// Liste des objets collisionnable
+        /// </summary>
         public static List<ICollidable> Collidables { get; private set; } = new List<ICollidable>();
 
+        /// <summary>
+        /// Le gestionnaire de jeu qui gère la logique
+        /// </summary>
         private GameManager _gameManager;
 
-        private Random randPower = new Random();
-        private Random randAngle = new Random();
-
+        /// <summary>
+        /// Constructeur de la classe Game
+        /// </summary>
         public Game()
         {
-            Player1 = new Player(10,10, ConsoleColor.Red);
-            Player2 = new Player(100,10, ConsoleColor.Cyan);
+            Player1 = new Player(10,33, ConsoleColor.Red);
+            Player2 = new Player(100,33, ConsoleColor.Cyan);
 
             Building1 = new Building(width: 5, height: 5, owner: Player1, true);
             Building2 = new Building(width: 5, height: 5, owner: Player2, false);
@@ -45,54 +82,75 @@ namespace JeuDeBalle
             IsGameOver = false;
         }
 
+        /// <summary>
+        /// Début du jeu, affichage des objets
+        /// </summary>
         public void StartGame()
         {
             IsGameOver = false;
             Console.WriteLine("Le jeu commence !");
+
             // Affiche les joueurs     
             DisplayPlayers();
+            
+            //Affiche tous les objet updatable
             foreach (IUpdatable updatable in Updatables)
                 updatable.Update();
-
         }
 
+        /// <summary>
+        /// Fin du jeu
+        /// </summary>
         public void EndGame()
         {
             IsGameOver = true;
             Console.WriteLine("Le jeu est terminé !");
         }
 
+        /// <summary>
+        /// Affichage du score
+        /// </summary>
         public void DisplayScores()
         {
             Console.WriteLine($"Score Joueur 1: {Player1.PlayerScore}");
             Console.WriteLine($"Score Joueur 2: {Player2.PlayerScore}");
         }
 
+        /// <summary>
+        /// Gestion des tours 
+        /// </summary>
+        /// <param name="currentPlayer">Le joueur qui joue actuellement.</param>
+        /// <param name="opponent">L'adversaire du joueur actuel.</param>
+        /// <param name="opponentBuilding">Le bâtiment du joueur adverse</param>
         public void PlayTurn(Player currentPlayer, Player opponent, Building opponentBuilding)
         {
             // Réinitialiser la balle avant de commencer un tour
             _gameManager.ResetBall(currentPlayer);
 
-            //Console.WriteLine($"{(currentPlayer == Player1 ? "Joueur 1" : "Joueur 2")}, choisissez un angle (en degrés) :");
+            #region debug
             if (!float.TryParse(Console.ReadLine(), out float angle))
             {
                 Console.WriteLine("Angle invalide. Veuillez réessayer.");
                 return;
             }
-
-            //Console.WriteLine("Choisissez une force (entre 1 et 10) :");
+            
             if (!float.TryParse(Console.ReadLine(), out float force) || force < 1 || force > 10)
             {
                 Console.WriteLine("Force invalide. Veuillez réessayer.");
                 return;
             }
+            #endregion
 
             // Lancer la balle depuis la position du joueur
             Ball.Launch(angle, force, currentPlayer.ConsolePosition);
 
             // Simuler le mouvement de la balle
-            SimulateBall(currentPlayer, opponent, opponentBuilding);
+            Ball.SimulateBall(currentPlayer, opponent, opponentBuilding, _gameManager);
         }
+
+        /// <summary>
+        /// Afficher les joueurs sur la console
+        /// </summary>
         private void DisplayPlayers()
         {
             // Affiche le Joueur 1
@@ -110,73 +168,6 @@ namespace JeuDeBalle
                 Console.SetCursorPosition((int)Player2.ConsolePosition.X, Console.CursorTop);
                 Console.WriteLine(item);
             }
-        }
-        
-        private void SimulateBall(Player currentPlayer, Player opponent, Building opponentBuilding)
-        {
-            while (!Ball.IsDestroyed)
-            {
-                //Console.Clear();                
-
-                // Met à jour et affiche la balle
-                Ball.Update();
-                Ball.Display();
-
-                // Vérifie les collisions avec tous les objets dans Collidables
-                foreach (ICollidable collidable in Collidables)
-                {
-                    if (collidable is Building building)
-                    {                        
-                        // Vérifier si la balle touche le bâtiment
-                        if (building.CheckCollision(Ball.Position))
-                        {
-                            // Verifier que le building et collisionnable et dommageable
-                            if (Collidables.Contains(building) && Damageables.Contains(building))
-                            {
-                                if (building.Owner == Player1)
-                                {
-                                    Vector2 gridPosition = Ball.Position;
-                                    _gameManager.HandleBallCollisionWithBuilding(building, Ball.Position, currentPlayer); // Gérer la collision et la destruction de la case
-                                    Ball.Destroy();
-                                    building.Update();
-                                }
-                                else if (building.Owner == Player2)
-                                {
-                                    Vector2 gridPosition = Ball.Position;                                   
-
-                                    _gameManager.HandleBallCollisionWithBuilding(building, Ball.Position, currentPlayer); // Gérer la collision et la destruction de la case
-                                    Ball.Destroy();
-                                    building.Update();
-                                }
-                                break;  // Arrêter la boucle dès qu'il y a collision
-                            }
-                        }
-                    }
-                    else if (collidable is Player player)
-                    {
-                        // Vérifier si la balle touche un joueur
-                        if (player.CheckCollision(Ball.Position))
-                        {
-                            if (Collidables.Contains(player) && Damageables.Contains(player))
-                            {                                
-                                player.TakeDamage(1);
-                                currentPlayer.Heal(1);
-                                break;  // Arrêter la boucle dès qu'il y a collision
-                            }
-                        }
-                    }
-                }
-
-                // Vérifie si la balle sort du terrain
-                if (Ball.Position.X < 0 || Ball.Position.X >= Console.WindowWidth || Ball.Position.Y >= Console.WindowHeight)
-                {
-                    break;
-                }
-
-                // Pause pour ralentir l'animation
-                System.Threading.Thread.Sleep(50);
-            }
-
-        }
+        } 
     }
 }
