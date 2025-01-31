@@ -56,11 +56,15 @@ namespace JeuDeBalle
         /// Vérifie si la balle touche un caractère du joueur et inflige des dégâts.
         /// </summary>
         /// <param name="player">Le joueur avec lequel la balle entre en collision.</param>
-        /// <param name="ballPosition">La position actuelle de la balle.</param>
         /// <param name="currentPlayer">Le joueur qui joue actuellement.</param>
-        public void HandleBallCollisionWithPlayer(Player player, Vector2 ballPosition, Player currentPlayer)
+        public void HandleBallCollisionWithPlayer(Player player, Player currentPlayer)
         {
-           
+            // Vérifier si le joueur fait partie des objets qui peuvent subir des dégâts
+            if (Game.Damageables.Contains(player))
+            {
+                player.TakeDamage(1);
+                currentPlayer.Heal(1);
+            }
         }
         /// <summary>
         /// Remet à zéro les valeur pour la balle 

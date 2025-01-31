@@ -165,11 +165,9 @@ namespace JeuDeBalle
                         // Vérifier si la balle touche un joueur
                         if (player.CheckCollision(Position))
                         {
-                            if (Game.Collidables.Contains(player) && Game.Damageables.Contains(player))
+                            if (Game.Collidables.Contains(player))
                             {
                                 gameManager.HandleBallCollisionWithPlayer(player,Position,currentPlayer);
-                                player.TakeDamage(1);
-                                currentPlayer.Heal(1);
                                 Destroy(); // Détruire la balle après la collision
                                 break;  // Arrêter la boucle dès qu'il y a collision
                             }
