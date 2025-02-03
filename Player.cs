@@ -30,7 +30,7 @@ namespace JeuDeBalle
         /// <summary>
         /// Le dessin qui représente le joueur
         /// </summary>
-        public readonly string[] CARACTER =
+        public readonly string[] CHARACTER =
         {
             "●\u263A",
             @"-|-",
@@ -80,20 +80,19 @@ namespace JeuDeBalle
         /// <returns>Vrai si collision avec le joueur</returns>
         public bool CheckCollision(Vector2 ballPosition)
         {
-            // On parcourt chaque caractère du joueur en fonction de sa forme (CARACTER)
-            for (int dy = 0; dy < CARACTER.Length; ++dy) // Hauteur de la forme du joueur (3)
+            // On parcourt chaque caractère du joueur en fonction de sa forme
+            for (int dy = 0; dy < CHARACTER.Length; ++dy) // Hauteur de la forme du joueur
             {
-                for (int dx = 0; dx < CARACTER[dy].Length; ++dx) // Largeur de la forme du joueur
+                for (int dx = 0; dx < CHARACTER[dy].Length; ++dx) // Largeur de la forme du joueur
                 {
                     // Calcul de la position de chaque caractère (case) du joueur
                     int x = (int)(ConsolePosition.X + dx);
                     int y = (int)(ConsolePosition.Y + dy);
 
                     // Vérifier si la balle touche cette case
-                    if (Convert.ToInt32(ballPosition.X) >= x && Convert.ToInt32(ballPosition.X) < x + 1 && Convert.ToInt32(ballPosition.Y) >= y && Convert.ToInt32(ballPosition.Y) < y + 1)
-                    {
+                    if (Convert.ToInt32(ballPosition.X) >= x && Convert.ToInt32(ballPosition.X) < x + 1 
+                        && Convert.ToInt32(ballPosition.Y) >= y && Convert.ToInt32(ballPosition.Y) < y + 1)
                         return true; // Collision avec le joueur
-                    }
                 }
             }
             return false;

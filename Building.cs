@@ -111,7 +111,11 @@ namespace JeuDeBalle
             for (int i = 0; i < Height; ++i)
             {
                 for (int j = 0; j < Width; ++j)
+                {
+                    Console.ForegroundColor = Owner.ConsoleColor;
                     Console.Write(grid[i, j] ? CELLFORM.ToString() : " ");
+                    Console.ResetColor();
+                }
 
                 Console.WriteLine();
                 Console.SetCursorPosition((int)ConsolePosition.X, Console.CursorTop);
@@ -132,7 +136,7 @@ namespace JeuDeBalle
                 {
                     if (grid[y, x])  // Si la case est intacte
                     {
-                        // Calculer la position de la case (en prenant en compte le décalage du bâtiment)
+                        // Calculer la position de la case
                         float cellX = ConsolePosition.X + x;
                         float cellY = ConsolePosition.Y + y;
 

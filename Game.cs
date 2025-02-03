@@ -9,6 +9,7 @@ Gère les débuts, les fins et le déroulement général du jeu.
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace JeuDeBalle
 {
@@ -65,15 +66,20 @@ namespace JeuDeBalle
         private GameManager _gameManager;
 
         /// <summary>
+        /// Position du sol
+        /// </summary>
+        public static Vector2 GroundPosition { get; private set; } = new Vector2(0,36);
+
+        /// <summary>
         /// Constructeur de la classe Game
         /// </summary>
         public Game()
         {
             Player1 = new Player(10,33, ConsoleColor.Red);
-            Player2 = new Player(20,33, ConsoleColor.Cyan);
+            Player2 = new Player(40,33, ConsoleColor.Cyan);
 
-            //Building1 = new Building(width: 5, height: 5, owner: Player1, true);
-            //Building2 = new Building(width: 5, height: 5, owner: Player2, false);
+            Building1 = new Building(width: 5, height: 5, owner: Player1, true);
+            Building2 = new Building(width: 5, height: 5, owner: Player2, false);
 
             Ball = new Ball();
 
@@ -90,12 +96,23 @@ namespace JeuDeBalle
             IsGameOver = false;
             Console.WriteLine($"Le jeu commence ! PV:{Player1.LifePoints}");
 
+            // Affichage du sol
+            Console.ForegroundColor = ConsoleColor.Green;            
+            Console.SetCursorPosition((int)GroundPosition.X, (int)GroundPosition.Y + 3);
+            Console.WriteLine("---------------------------------------------------" +
+                "-------------------------------------------------------------------------------------------------");
+
+            Console.SetCursorPosition((int)GroundPosition.X, (int)GroundPosition.Y - 3);
+            Console.WriteLine("---------------------------------------------------" +
+                "-------------------------------------------------------------------------------------------------");
+            Console.ResetColor();
+
             // Affiche les joueurs     
             DisplayPlayers();
             
             //Affiche tous les objet updatable
             foreach (IUpdatable updatable in Updatables)
-                updatable.Update();
+                updatable.Update();                      
         }
 
         /// <summary>
@@ -155,18 +172,21 @@ namespace JeuDeBalle
         {
             // Affiche le Joueur 1
             Console.SetCursorPosition((int)Player1.ConsolePosition.X, (int)Player1.ConsolePosition.Y);
-            foreach (string item in Player1.CARACTER)
+            foreach (string item in Player1.CHARACTER)
             {
                 Console.SetCursorPosition((int)Player1.ConsolePosition.X, Console.CursorTop);
+                Console.ForegroundColor = Player1.ConsoleColor;
                 Console.WriteLine(item);
             }
 
             // Affiche le Joueur 2
             Console.SetCursorPosition((int)Player2.ConsolePosition.X, (int)Player2.ConsolePosition.Y);
-            foreach (string item in Player2.CARACTER)
+            foreach (string item in Player2.CHARACTER)
             {
                 Console.SetCursorPosition((int)Player2.ConsolePosition.X, Console.CursorTop);
+                Console.ForegroundColor = Player2.ConsoleColor;
                 Console.WriteLine(item);
+                Console.ResetColor();
             }
         } 
     }

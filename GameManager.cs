@@ -45,7 +45,6 @@ namespace JeuDeBalle
             // Vérifier si la case est intacte et la détruire
             if (building.IsBlockIntact(x, y))
             {
-                //Console.WriteLine("\nLa balle a touché une case du bâtiment !");
                 building.TakeDamage(new Tuple<int, int>(x, y));
                 building.Update();
             }
@@ -55,14 +54,14 @@ namespace JeuDeBalle
         /// Gère la collision entre la balle et un joueur.
         /// Vérifie si la balle touche un caractère du joueur et inflige des dégâts.
         /// </summary>
-        /// <param name="player">Le joueur avec lequel la balle entre en collision.</param>
+        /// <param name="opponent">Le joueur avec lequel la balle entre en collision.</param>
         /// <param name="currentPlayer">Le joueur qui joue actuellement.</param>
-        public void HandleBallCollisionWithPlayer(Player player, Player currentPlayer)
+        public void HandleBallCollisionWithPlayer(Player opponent, Player currentPlayer)
         {
             // Vérifier si le joueur fait partie des objets qui peuvent subir des dégâts
-            if (Game.Damageables.Contains(player))
+            if (Game.Damageables.Contains(opponent))
             {
-                player.TakeDamage(1);
+                opponent.TakeDamage(1);
                 currentPlayer.Heal(1);
             }
         }

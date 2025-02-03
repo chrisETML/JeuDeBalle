@@ -21,10 +21,6 @@ namespace JeuDeBalle
             Console.CursorVisible = false;
             Console.SetWindowSize(150,40); // Taille de la fenêtre console
 
-            Console.SetCursorPosition(0,36);
-            Console.WriteLine("---------------------------------------------------" +
-                "-------------------------------------------------------------------------------------------------"); // Affiche le sol
-
             ConsoleKey press = ConsoleKey.Spacebar;            
 
             // Initialisation du jeu

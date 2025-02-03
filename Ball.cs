@@ -76,7 +76,7 @@ namespace JeuDeBalle
         /// <summary>
         /// Affiche la balle à sa nouvelle position
         /// </summary>
-        public void Display()
+        public void Display(Player player)
         {
             // Efface la balle à la dernière position
             if (LastPosition.HasValue)
@@ -88,7 +88,9 @@ namespace JeuDeBalle
 
             // Affiche la balle à la nouvelle position
             Console.SetCursorPosition((int)Position.X, (int)Position.Y);
-            Console.Write(BALL_FORM); 
+            Console.ForegroundColor = player.ConsoleColor;
+            Console.Write(BALL_FORM);
+            Console.ResetColor();
         }
 
         /// <summary>
@@ -135,9 +137,9 @@ namespace JeuDeBalle
         {
             while (!IsDestroyed)
             {
-                // Met à jour et affiche la balle
+                // Met à jour et affiche la balle                
                 Update();
-                Display();
+                Display(currentPlayer);
 
                 // Vérifie les collisions avec tous les objets dans Collidables
                 foreach (ICollidable collidable in Game.Collidables)
@@ -160,14 +162,14 @@ namespace JeuDeBalle
                             }
                         }
                     }
-                    else if (collidable is Player player)
+                    else if (collidable is Player playerCollide)
                     {
                         // Vérifier si la balle touche un joueur
-                        if (player.CheckCollision(Position))
+                        if (playerCollide.CheckCollision(Position))
                         {
-                            if (Game.Collidables.Contains(player))
+                            if (Game.Collidables.Contains(playerCollide))
                             {
-                                gameManager.HandleBallCollisionWithPlayer(player,Position,currentPlayer);
+                                gameManager.HandleBallCollisionWithPlayer(playerCollide,currentPlayer);
                                 Destroy(); // Détruire la balle après la collision
                                 break;  // Arrêter la boucle dès qu'il y a collision
                             }
@@ -176,15 +178,11 @@ namespace JeuDeBalle
                 }
 
                 // Vérifie si la balle sort du terrain
-                if (Position.X < 0 || Position.X >= Console.WindowWidth || Position.Y >= Console.WindowHeight)
-                {
+                if (Position.X < 0 || Position.X >= Console.WindowWidth || Position.Y >= Game.GroundPosition.Y)
                     break;
-                }
 
-                // Pause pour ralentir l'animation
-                System.Threading.Thread.Sleep(50);
+                System.Threading.Thread.Sleep(50);// Pause pour ralentir l'animation   
             }
-
         }
     }
 }
