@@ -9,6 +9,7 @@ Si la balle touche le joueur il perd un point de vie, et le joueur qui a tiré g
 */
 
 using System;
+using System.Media;
 using System.Threading;
 
 namespace JeuDeBalle
@@ -20,7 +21,8 @@ namespace JeuDeBalle
             Console.ReadLine();
             Console.OutputEncoding = System.Text.Encoding.UTF8; // Pour afficher le smiley du player
             Console.CursorVisible = false;
-            Console.SetWindowSize(150,40); // Taille de la fenêtre console
+            Console.SetWindowSize(Game.WINDOW_WIDTH,Game.WINDOW_HEIGHT); // Taille de la fenêtre console
+
             // Initialisation du jeu
             Game game = new Game();
 
@@ -40,12 +42,6 @@ namespace JeuDeBalle
                 game.PlayTurn(game.Player2, game.Player1, game.Building1); // Tour du joueur 2
 
             }
-
-            // Fin du jeu
-            Console.WriteLine("Le jeu est terminé !");
-
-
-
 
 
             //Test animation avec un thread séparé à voir si j'ai le temps de continuer après avoir fini le jeu de base

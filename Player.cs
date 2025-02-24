@@ -6,6 +6,7 @@ Description : Classe représentant un joueur
 */
 
 using System;
+using System.Media;
 using System.Numerics;
 
 namespace JeuDeBalle
@@ -77,6 +78,17 @@ namespace JeuDeBalle
         {
             if (damageData is int damageAmount)
                 LifePoints -= (Byte)damageAmount;
+
+            if(LifePoints == 1)
+            {
+                string soundFile = Environment.CurrentDirectory + @"\sounds\lowHP.wav"; 
+
+                using (SoundPlayer sound = new SoundPlayer(soundFile))
+                {
+                    sound.Load();
+                    sound.Play();
+                }
+            }
         }
         
         /// <summary>

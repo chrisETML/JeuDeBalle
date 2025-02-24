@@ -9,6 +9,7 @@ Gère les débuts, les fins et le déroulement général du jeu.
 
 using System;
 using System.Collections.Generic;
+using System.Media;
 using System.Numerics;
 
 namespace JeuDeBalle
@@ -73,7 +74,17 @@ namespace JeuDeBalle
         /// <summary>
         /// Indique si c'est le premier tour, permet de gérer le placement pour l'affichage de l'angle du joueur
         /// </summary>
-        private static bool firstTurn = true;    
+        private static bool firstTurn = true;
+
+        /// <summary>
+        /// Largeur de la fenetre du jeu
+        /// </summary>
+        public static readonly Byte WINDOW_WIDTH = 150;
+
+        /// <summary>
+        /// Hauteur de la fenetre du jeu
+        /// </summary>
+        public static readonly Byte WINDOW_HEIGHT = 40;
 
         /// <summary>
         /// Constructeur de la classe Game
@@ -98,6 +109,14 @@ namespace JeuDeBalle
         /// </summary>
         public void StartGame()
         {
+            string soundFile = Environment.CurrentDirectory + @"\sounds\intro.wav";
+
+            using (SoundPlayer sound = new SoundPlayer(soundFile))
+            {
+                sound.Load();
+                sound.Play();
+            }
+
             IsGameOver = false;
 
             // Affichage du sol
@@ -125,8 +144,17 @@ namespace JeuDeBalle
         /// </summary>
         public void EndGame()
         {
+            string soundFile = Environment.CurrentDirectory + @"\sounds\end.wav";
+
+            using (SoundPlayer sound = new SoundPlayer(soundFile))
+            {
+                sound.Load();
+                sound.Play();
+            }
+
             IsGameOver = true;
-            Console.WriteLine("Le jeu est terminé !");
+
+
         }
 
         /// <summary>

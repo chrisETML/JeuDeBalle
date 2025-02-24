@@ -8,6 +8,7 @@ Description : Fournit des outils pour gérer les actions spécifiques du jeu, co
 using System.Numerics;
 using System;
 using System.Threading;
+using System.Media;
 
 namespace JeuDeBalle
 {
@@ -56,6 +57,13 @@ namespace JeuDeBalle
             // Vérifier si la case est intacte et la détruire
             if (building.IsBlockIntact(x, y))
             {
+                string soundFile = Environment.CurrentDirectory + @"\sounds\touch.wav";
+
+                using (SoundPlayer sound = new SoundPlayer(soundFile))
+                {
+                    sound.Load();
+                    sound.Play();
+                }
                 building.TakeDamage(new Tuple<int, int>(x, y));
                 building.Update();
                 if(building.Owner == currentPlayer)
@@ -76,6 +84,13 @@ namespace JeuDeBalle
             // Vérifier si le joueur fait partie des objets qui peuvent subir des dégâts
             if (Game.Damageables.Contains(opponent))
             {
+                string soundFile = Environment.CurrentDirectory + @"\sounds\touch.wav";
+
+                using (SoundPlayer sound = new SoundPlayer(soundFile))
+                {
+                    sound.Load();
+                    sound.Play();
+                }
                 opponent.TakeDamage(1);
                 currentPlayer.Heal(1);
                 currentPlayer.PlayerScore += 10;

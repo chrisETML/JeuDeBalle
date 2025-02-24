@@ -6,6 +6,8 @@ Description : Classe pour la balle du jeu
 */
 
 using System;
+using System.ComponentModel;
+using System.Media;
 using System.Numerics;
 
 namespace JeuDeBalle
@@ -93,13 +95,34 @@ namespace JeuDeBalle
         }
 
         /// <summary>
-        /// Lance la balle avec un angle, une force et une position de départ
+        /// Lance la balle avec un angle, une force et une position de départ, audio aléatoire pour le tir
         /// </summary>
         /// <param name="angle">Angle de tir en degrés</param>
         /// <param name="force">Force de tir</param>
         /// <param name="startPosition">Position de départ de la balle</param>
         public void Launch(float angle, float force, Vector2 startPosition)
         {
+            string soundFile = Environment.CurrentDirectory;
+
+            Random random = new Random();
+            switch (random.Next(0, 2))
+            {
+                case 0:
+                    soundFile += @"\sounds\shot.wav";
+                    break;
+                case 1:
+                    soundFile += @"\sounds\shot1.wav";
+                    break;
+                default:
+                    break;
+            }
+
+            using (SoundPlayer sound = new SoundPlayer(soundFile))
+            {
+                sound.Load();
+                sound.Play();
+            }
+
             // Définir la position initiale
             Position = startPosition;
             LastPosition = null; // Réinitialiser la dernière position
@@ -176,9 +199,19 @@ namespace JeuDeBalle
                     }
                 }
 
-                // Vérifie si la balle sort du terrain
+                // Vérifie si la balle sort du terrain et audio
                 if (Position.Y >= Game.GroundPosition.Y)
+                {                    
+                    string soundFile = Environment.CurrentDirectory + @"\sounds\tomber.wav";
+                    
+                    using (SoundPlayer sound = new SoundPlayer(soundFile))
+                    {
+                        sound.Load();
+                        sound.Play();
+                    }
                     break;
+                }
+                   
 
                 System.Threading.Thread.Sleep(50);// Pause pour ralentir l'animation   
             }
