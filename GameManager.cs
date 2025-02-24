@@ -296,22 +296,19 @@ namespace JeuDeBalle
       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
   ";
 
-            // Préparation du texte en lignes
             string[] lines = gameOver.Split('\n');
 
-            // Calculer la zone d'affichage du Game Over (centré)
             int gameOverLines = lines.Length;
             int gameOverWidth = lines.Max(l => l.Length);
             int gameOverStartRow = (Game.WINDOW_HEIGHT - 20 - gameOverLines) / 2;
             int gameOverStartCol = (Game.WINDOW_WIDTH - 30 - gameOverWidth) / 2;
 
-            // Paramètres de l'animation des étoiles
             int width = Game.WINDOW_WIDTH;
             int height = Game.WINDOW_HEIGHT - 20;
             int starCount = (width * height) / 50;
             Random rand = new Random();
 
-            // Initialisation unique des étoiles
+            // Initialisation des étoiles
             List<Star> stars = new List<Star>();
             for (int i = 0; i < starCount; i++)
             {

@@ -149,10 +149,12 @@ namespace JeuDeBalle
             using (SoundPlayer sound = new SoundPlayer(soundFile))
             {
                 sound.Load();
-                sound.Play();
+                sound.PlayLooping();
             }
 
             IsGameOver = true;
+
+            DisplayScores();
 
             _gameManager.EndGameAnimation();
         }
@@ -161,11 +163,30 @@ namespace JeuDeBalle
         /// Affichage du score
         /// </summary>
         public void DisplayScores()
-        {
-            Console.SetCursorPosition((int)Player1.ConsolePosition.X-5, (int)Player1.ConsolePosition.Y+4);
-            Console.WriteLine($"Score Joueur 1: {Player1.PlayerScore} PV : {Player1.LifePoints}");
-            Console.SetCursorPosition((int)Player2.ConsolePosition.X-5, (int)Player2.ConsolePosition.Y+4);
-            Console.WriteLine($"Score Joueur 2: {Player2.PlayerScore} PV : {Player2.LifePoints}");
+        {            
+            Console.SetCursorPosition((int)Player1.ConsolePosition.X - 2, (int)Player1.ConsolePosition.Y + 4);
+            Console.ForegroundColor = Player1.ConsoleColor;
+            Console.Write("Score : ");
+            Console.ResetColor();
+            Console.Write(Player1.PlayerScore);
+
+            Console.SetCursorPosition((int)Player1.ConsolePosition.X - 2, (int)Player1.ConsolePosition.Y + 3);
+            Console.ForegroundColor = Player1.ConsoleColor;
+            Console.Write("PV : ");
+            Console.ResetColor();
+            Console.Write(Player1.LifePoints);
+
+            Console.SetCursorPosition((int)Player2.ConsolePosition.X - 2, (int)Player2.ConsolePosition.Y + 4);
+            Console.ForegroundColor = Player2.ConsoleColor;
+            Console.Write("Score : ");
+            Console.ResetColor();
+            Console.Write(Player2.PlayerScore);
+
+            Console.SetCursorPosition((int)Player2.ConsolePosition.X - 2, (int)Player2.ConsolePosition.Y + 3);
+            Console.ForegroundColor = Player2.ConsoleColor;
+            Console.Write("PV : ");
+            Console.ResetColor();
+            Console.Write(Player2.LifePoints);
         }
 
         /// <summary>
@@ -207,6 +228,9 @@ namespace JeuDeBalle
 
             // Simuler le mouvement de la balle
             Ball.SimulateBall(currentPlayer, opponent, opponentBuilding, _gameManager);
+
+            if(Player1.LifePoints == 0 || Player2.LifePoints == 0 || !Building1.IsBuildingIntact() || !Building2.IsBuildingIntact())
+                EndGame();
         }
 
         /// <summary>

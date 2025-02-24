@@ -162,6 +162,20 @@ namespace JeuDeBalle
 
                 DestroyBlock(x, y);
             }
-        }        
+        }      
+        
+        /// <summary>
+        /// Savoir si le batiment est detruit
+        /// </summary>
+        /// <returns>Retourne vrai si une case est intacte, false si toutes les cases sont détruites</returns>
+        public bool IsBuildingIntact()
+        {
+            foreach (bool IsCellAlive in grid)
+            {
+                if (IsCellAlive)
+                    return true;                
+            }
+            return false;
+        }
     }
 }

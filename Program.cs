@@ -29,7 +29,7 @@ namespace JeuDeBalle
             
             // Démarrage du jeu
             game.StartGame();
-            game.EndGame();
+
             // Simulation d'un tour (ajoute une boucle pour gérer les tours, si besoin)
             while (!game.IsGameOver)
             {              
@@ -43,7 +43,6 @@ namespace JeuDeBalle
                 game.PlayTurn(game.Player2, game.Player1, game.Building1); // Tour du joueur 2
 
             }
-
 
             //Test animation avec un thread séparé à voir si j'ai le temps de continuer après avoir fini le jeu de base
 
