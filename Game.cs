@@ -154,7 +154,7 @@ namespace JeuDeBalle
 
             IsGameOver = true;
 
-
+            _gameManager.EndGameAnimation();
         }
 
         /// <summary>

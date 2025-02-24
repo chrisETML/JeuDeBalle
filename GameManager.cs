@@ -9,6 +9,8 @@ using System.Numerics;
 using System;
 using System.Threading;
 using System.Media;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JeuDeBalle
 {
@@ -34,11 +36,6 @@ namespace JeuDeBalle
                 game = new Game();
 
             _game = game;
-        }
-
-        public void ScoreSystem()
-        {
-
         }
 
         /// <summary>
@@ -273,6 +270,93 @@ namespace JeuDeBalle
                 Thread.Sleep(300);     
             }          
             return _actualAngle;
+        }
+        /// <summary>
+        /// Etoile pour l'animation de fin de jeu
+        /// </summary>
+        class Star
+        {
+            public int X { get; set; }
+            public int Y { get; set; }
+        }
+
+        /// <summary>
+        /// Animation de fin de jeu
+        /// </summary>
+        public void EndGameAnimation()
+        {
+            // Votre ASCII art "Game Over"
+            string gameOver = @"
+      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     ░  ██████   █████  ███    ███ ███████     ██████  ██    ██ ███████ █████  ░
+     ░ ██       ██   ██ ████  ████ ██         ██    ██ ██    ██ ██      ██  ██ ░
+     ░ ██   ███ ███████ ██ ████ ██ █████      ██    ██ ██    ██ █████   ████   ░
+     ░ ██    ██ ██   ██ ██  ██  ██ ██         ██    ██  ██  ██  ██      ██  ██ ░
+     ░  ██████  ██   ██ ██      ██ ███████     ██████    ████   ███████ ██  ██ ░
+      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+  ";
+
+            // Préparation du texte en lignes
+            string[] lines = gameOver.Split('\n');
+
+            // Calculer la zone d'affichage du Game Over (centré)
+            int gameOverLines = lines.Length;
+            int gameOverWidth = lines.Max(l => l.Length);
+            int gameOverStartRow = (Game.WINDOW_HEIGHT - 20 - gameOverLines) / 2;
+            int gameOverStartCol = (Game.WINDOW_WIDTH - 30 - gameOverWidth) / 2;
+
+            // Paramètres de l'animation des étoiles
+            int width = Game.WINDOW_WIDTH;
+            int height = Game.WINDOW_HEIGHT - 20;
+            int starCount = (width * height) / 50;
+            Random rand = new Random();
+
+            // Initialisation unique des étoiles
+            List<Star> stars = new List<Star>();
+            for (int i = 0; i < starCount; i++)
+            {
+                stars.Add(new Star { X = rand.Next(0, width), Y = rand.Next(0, height) });
+            }
+
+            Console.CursorVisible = false;
+
+            // Boucle d'animation
+            while (!Console.KeyAvailable)
+            {
+                // Pour chaque étoile, effacer son ancien caractère, mettre à jour sa position, puis l'afficher
+                foreach (Star star in stars)
+                {
+                    // Effacer l'ancienne position en y écrivant un espace
+                    Console.SetCursorPosition(star.X, star.Y);
+                    Console.Write(" ");
+
+                    // Mise à jour de la position
+                    star.X--;
+                    if (star.X < 0)
+                    {
+                        star.X = width - 1;
+                        star.Y = rand.Next(0, height);
+                    }
+
+                    // Afficher l'étoile dans sa nouvelle position avec une couleur aléatoire (jaune ou blanc)
+                    Console.ForegroundColor = (rand.Next(0, 2) == 0) ? ConsoleColor.DarkYellow : ConsoleColor.White;
+                    Console.SetCursorPosition(star.X, star.Y);
+                    Console.Write("*");
+                }
+
+                // Redessiner le texte "Game Over" par-dessus les étoiles
+                Console.ResetColor();
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    int row = gameOverStartRow + i;
+                    if (row >= 0 && row < height)
+                    {
+                        Console.SetCursorPosition(gameOverStartCol, row);
+                        Console.Write(lines[i]);
+                    }
+                }
+                Thread.Sleep(100);
+            }
         }
     }
 }
