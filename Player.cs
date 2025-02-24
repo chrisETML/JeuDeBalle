@@ -16,7 +16,7 @@ namespace JeuDeBalle
         /// <summary>
         /// Point de vie
         /// </summary>
-        public Byte LifePoints { get; set; } = 2;
+        public Byte LifePoints { get; set; } = 3;
 
         /// <summary>
         /// Point de score
