@@ -26,6 +26,16 @@ namespace JeuDeBalle
         /// Position du joueur dans la console
         /// </summary>
         public Vector2 ConsolePosition { get; private set; }
+        
+        /// <summary>
+        /// Angle minimum de tir
+        /// </summary>
+        public readonly int ANGLE_MIN;
+
+        /// <summary>
+        /// Angle maximum de tir
+        /// </summary>
+        public readonly int ANGLE_MAX;
 
         /// <summary>
         /// Le dessin qui représente le joueur
@@ -48,10 +58,13 @@ namespace JeuDeBalle
         /// <param name="x">Position X</param>
         /// <param name="y">Position Y</param>
         /// <param name="consoleColor">Couleur du joueur</param>
-        public Player(int x, int y, ConsoleColor consoleColor) 
+        public Player(int x, int y, ConsoleColor consoleColor, int angleMin, int angleMax) 
         {
             ConsolePosition = new Vector2(x, y);
             ConsoleColor = consoleColor;
+            ANGLE_MAX = angleMax;
+            ANGLE_MIN = angleMin;
+
             Game.Collidables.Add(this);
             Game.Damageables.Add(this);            
         }

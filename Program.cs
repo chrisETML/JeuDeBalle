@@ -9,6 +9,7 @@ Si la balle touche le joueur il perd un point de vie, et le joueur qui a tiré g
 */
 
 using System;
+using System.Threading;
 
 namespace JeuDeBalle
 {
@@ -16,13 +17,10 @@ namespace JeuDeBalle
     {
         static void Main()
         {
-
+            Console.ReadLine();
             Console.OutputEncoding = System.Text.Encoding.UTF8; // Pour afficher le smiley du player
             Console.CursorVisible = false;
             Console.SetWindowSize(150,40); // Taille de la fenêtre console
-
-            ConsoleKey press = ConsoleKey.Spacebar;            
-
             // Initialisation du jeu
             Game game = new Game();
 
@@ -32,14 +30,82 @@ namespace JeuDeBalle
             // Simulation d'un tour (ajoute une boucle pour gérer les tours, si besoin)
             while (!game.IsGameOver)
             {              
+                game.DisplayScores();
                 game.PlayTurn(game.Player1, game.Player2, game.Building2); // Tour du joueur 1
+
                 if (game.IsGameOver) 
                     break;
+
+                game.DisplayScores();
                 game.PlayTurn(game.Player2, game.Player1, game.Building1); // Tour du joueur 2
+
             }
 
             // Fin du jeu
             Console.WriteLine("Le jeu est terminé !");
+
+
+
+
+
+            //Test animation avec un thread séparé à voir si j'ai le temps de continuer après avoir fini le jeu de base
+
+            /*Thread animThread = new Thread(() => Animation(game));
+            
+
+            // Simulation des tours
+            Thread gameThread = new Thread(() =>
+            {                
+                while (!game.IsGameOver)
+                {
+                    game.PlayTurn(game.Player1, game.Player2, game.Building2); // Tour du joueur 1
+                    if (game.IsGameOver)
+                        break;
+                    game.PlayTurn(game.Player2, game.Player1, game.Building1); // Tour du joueur 2
+                }
+            });
+
+            animThread.Start();
+            gameThread.Start();   */
         }
+
+        //Test animation avec un thread séparé à voir si j'ai le temps de continuer après avoir fini le jeu de base
+        /*
+        static void Animation(Game game)
+        {
+            // Animation des points de vie
+            while (!game.IsGameOver)
+            {
+                // Afficher les points de vie avec animation colorée                
+                DisplayHealth(game.Player1, 1); // Afficher les points de vie de Player 1
+                Thread.Sleep(50);
+            }
+        }
+
+        static void DisplayHealth(Player player, int playerNumber)
+        {
+
+
+            Random random = new Random();
+            int i = 0;
+            string healthBar = new string('♥', player.LifePoints / 10);
+
+            Array colors = Enum.GetValues(typeof(ConsoleColor));
+            ConsoleColor randomColor = (ConsoleColor)colors.GetValue(random.Next(colors.Length));
+
+            while (randomColor == ConsoleColor.Black)
+            {
+                randomColor = (ConsoleColor)colors.GetValue(random.Next(colors.Length));
+            }
+
+            Console.ForegroundColor = randomColor;
+
+            Console.SetCursorPosition(0, playerNumber * 2);
+            Console.WriteLine($"Santé: {healthBar} ({player.LifePoints} HP)");
+
+            // Réinitialiser la couleur
+            Console.ResetColor();
+        }*/
+
     }
 }

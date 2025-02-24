@@ -83,7 +83,6 @@ namespace JeuDeBalle
             {
                 Console.SetCursorPosition((int)LastPosition.Value.X, (int)LastPosition.Value.Y);
                 Console.Write(' ');
-                
             }
 
             // Affiche la balle à la nouvelle position
@@ -112,7 +111,7 @@ namespace JeuDeBalle
             Velocity = new Vector2(
                 (float)(force * Math.Cos(radians)), // Vx
                 (float)(-force * Math.Sin(radians)) // Vy (négatif car Y augmente vers le bas)
-            );            
+            );
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace JeuDeBalle
 
                 // Vérifie les collisions avec tous les objets dans Collidables
                 foreach (ICollidable collidable in Game.Collidables)
-                {
+                {                    
                     if (collidable is Building building)
                     {
                         // Vérifier si la balle touche le bâtiment
@@ -169,7 +168,7 @@ namespace JeuDeBalle
                         {
                             if (Game.Collidables.Contains(playerCollide))
                             {
-                                gameManager.HandleBallCollisionWithPlayer(playerCollide,currentPlayer);
+                                gameManager.HandleBallCollisionWithPlayer(playerCollide, currentPlayer);
                                 Destroy(); // Détruire la balle après la collision
                                 break;  // Arrêter la boucle dès qu'il y a collision
                             }
@@ -178,7 +177,7 @@ namespace JeuDeBalle
                 }
 
                 // Vérifie si la balle sort du terrain
-                if (Position.X < 0 || Position.X >= Console.WindowWidth || Position.Y >= Game.GroundPosition.Y)
+                if (Position.Y >= Game.GroundPosition.Y)
                     break;
 
                 System.Threading.Thread.Sleep(50);// Pause pour ralentir l'animation   
