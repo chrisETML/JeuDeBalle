@@ -9,8 +9,6 @@ Si la balle touche le joueur il perd un point de vie, et le joueur qui a tiré g
 */
 
 using System;
-using System.Media;
-using System.Threading;
 
 namespace JeuDeBalle
 {
@@ -19,7 +17,6 @@ namespace JeuDeBalle
         static void Main()
         {
             Console.ReadLine();
-            
             Console.OutputEncoding = System.Text.Encoding.UTF8; // Pour afficher le smiley du player
             Console.CursorVisible = false;
             Console.SetWindowSize(Game.WINDOW_WIDTH,Game.WINDOW_HEIGHT); // Taille de la fenêtre console

@@ -6,7 +6,6 @@ Description : Classe pour la balle du jeu
 */
 
 using System;
-using System.ComponentModel;
 using System.Media;
 using System.Numerics;
 

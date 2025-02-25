@@ -135,8 +135,7 @@ namespace JeuDeBalle
 
             //Affiche tous les objet updatable
             foreach (IUpdatable updatable in Updatables)           
-                updatable.Update();
-                
+                updatable.Update();       
         }
 
         /// <summary>

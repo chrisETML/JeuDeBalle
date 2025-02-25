@@ -278,7 +278,8 @@ namespace JeuDeBalle
         {
             public int X { get; set; }
             public int Y { get; set; }
-        }
+            public char CHARACTER { get; private set; } = '*';
+    }
 
         /// <summary>
         /// Animation de fin de jeu
@@ -338,7 +339,7 @@ namespace JeuDeBalle
                     // Afficher l'étoile dans sa nouvelle position avec une couleur aléatoire (jaune ou blanc)
                     Console.ForegroundColor = (rand.Next(0, 2) == 0) ? ConsoleColor.DarkYellow : ConsoleColor.White;
                     Console.SetCursorPosition(star.X, star.Y);
-                    Console.Write("*");
+                    Console.Write(star.CHARACTER);
                 }
 
                 // Redessiner le texte "Game Over" par-dessus les étoiles

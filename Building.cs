@@ -12,7 +12,7 @@ namespace JeuDeBalle
 {
     internal class Building : ICollidable, IDamageable, IUpdatable
     {
-
+        
         /// <summary>
         /// Représente la largeur du bâtiment.
         /// </summary>
