@@ -301,7 +301,7 @@ namespace JeuDeBalle
             int gameOverLines = lines.Length;
             int gameOverWidth = lines.Max(l => l.Length);
             int gameOverStartRow = (Game.WINDOW_HEIGHT - 20 - gameOverLines) / 2;
-            int gameOverStartCol = (Game.WINDOW_WIDTH - 30 - gameOverWidth) / 2;
+            int gameOverStartCol = (Game.WINDOW_WIDTH - 10 - gameOverWidth) / 2;
 
             int width = Game.WINDOW_WIDTH;
             int height = Game.WINDOW_HEIGHT - 20;
