@@ -117,8 +117,6 @@ namespace JeuDeBalle
                 sound.Play();
             }
 
-            Console.SetWindowSize(200, 400);
-
             IsGameOver = false;
 
             // Affichage du sol
