@@ -11,7 +11,7 @@ using System.Numerics;
 
 namespace JeuDeBalle
 {
-    internal class Ball : IUpdatable
+    internal sealed class Ball : IUpdatable
     {
         /// <summary>
         /// Position de la balle

@@ -11,7 +11,7 @@ using System.Numerics;
 
 namespace JeuDeBalle
 {
-    internal class Player : IDamageable, ICollidable
+    internal sealed class Player : IDamageable, ICollidable
     {
         /// <summary>
         /// Point de vie

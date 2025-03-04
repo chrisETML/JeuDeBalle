@@ -23,9 +23,11 @@ namespace JeuDeBalle
 
             // Initialisation du jeu
             Game game = new Game();
-            
+
             // Démarrage du jeu
+            
             game.StartGame();
+            
 
             // Simulation d'un tour (ajoute une boucle pour gérer les tours, si besoin)
             while (!game.IsGameOver)

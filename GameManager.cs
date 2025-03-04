@@ -279,7 +279,7 @@ namespace JeuDeBalle
             public int X { get; set; }
             public int Y { get; set; }
             public char CHARACTER { get; private set; } = '*';
-    }
+        }
 
         /// <summary>
         /// Animation de fin de jeu
