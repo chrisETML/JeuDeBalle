@@ -73,9 +73,9 @@ namespace JeuDeBalle
                         currentPlayer.PlayerScore += 5;
                 }
             }
-            finally
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.ToString());
             }
         }
 

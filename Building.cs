@@ -61,6 +61,9 @@ namespace JeuDeBalle
         /// <param name="positionBuildingLeft">Indique si le bâtiment doit être positionné à gauche ou à droite du joueur.</param>
         public Building(int width, int height, Player owner, bool positionBuildingLeft)
         {
+            if (width < 0 || height < 0)
+                throw new ArgumentOutOfRangeException("Les indices doivent être >= 0.");
+
             Width = width;
             Height = height;
             Owner = owner;

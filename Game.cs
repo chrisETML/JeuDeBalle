@@ -91,11 +91,26 @@ namespace JeuDeBalle
         /// </summary>
         public Game()
         {
-            Player1 = new Player(x:30, y:33, ConsoleColor.DarkRed, angleMin:30, angleMax:60);
-            Player2 = new Player(x:80, y:33, ConsoleColor.DarkCyan, angleMin:120, angleMax:150);
+            try
+            {
+                Player1 = new Player(x: 30, y: 33, ConsoleColor.DarkRed, angleMin: 30, angleMax: 60);
+                Player2 = new Player(x: 80, y: 33, ConsoleColor.DarkCyan, angleMin: 120, angleMax: 150);
 
-            Building1 = new Building(width: 5, height: 5, owner: Player1, positionBuildingLeft: true);
-            Building2 = new Building(width: 5, height: 5, owner: Player2, positionBuildingLeft: false);
+                Building1 = new Building(width: 5, height: 5, owner: Player1, positionBuildingLeft: true);
+                Building2 = new Building(width: 5, height: 5, owner: Player2, positionBuildingLeft: false);
+            }
+            finally
+            {
+                if (Building1 == null)
+                {
+                    Console.WriteLine("Building1 n'a pas pu être créé.");
+                }
+                if (Building2 == null)
+                {
+                    Console.WriteLine("Building2 n'a pas pu être créé.");
+                }
+            }
+
 
             Ball = new Ball();
 
