@@ -12,7 +12,7 @@ using System;
 
 namespace JeuDeBalle
 {
-    internal class Program
+    internal sealed class ProgramPrincipal
     {
         static void Main()
         {

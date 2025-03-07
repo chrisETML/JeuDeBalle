@@ -102,7 +102,7 @@ namespace JeuDeBalle
         public void Launch(float angle, float force, Vector2 startPosition)
         {
             string soundFile = Environment.CurrentDirectory;
-
+            
             Random random = new Random();
             switch (random.Next(0, 2))
             {
