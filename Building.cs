@@ -10,6 +10,7 @@ using System.Numerics;
 
 namespace JeuDeBalle
 {
+    
     internal class Building : ICollidable, IDamageable, IUpdatable
     {
         
@@ -27,7 +28,7 @@ namespace JeuDeBalle
         /// Tableau 2D représentant les cases du bâtiment.
         /// Chaque case peut être intacte (true) ou détruite (false).
         /// </summary>
-        private bool[,] grid;             
+        private bool[,] _grid;             
 
         /// <summary>
         /// Représente le caractère utilisé pour afficher une case du bâtiment dans la console.
@@ -62,13 +63,13 @@ namespace JeuDeBalle
             Height = height;
             Owner = owner;
             ConsolePosition = new Vector2(Owner.ConsolePosition.X + (positionBuildingLeft == true ? SPACE_BETWEEN : -SPACE_BETWEEN), Owner.ConsolePosition.Y - 2);
-            grid = new bool[height, width];
+            _grid = new bool[height, width];
             
             // Créer un rectangle pour le bâtiment            
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
-                    grid[i, j] = true;
+                    _grid[i, j] = true;
             }
 
             Game.Collidables.Add(this);
@@ -84,7 +85,7 @@ namespace JeuDeBalle
         public void DestroyBlock(int x, int y)
         {
             if (x >= 0 && x < Width && y >= 0 && y < Height)
-                grid[y, x] = false;
+                _grid[y, x] = false;
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace JeuDeBalle
         public bool IsBlockIntact(int x, int y)
         {
             if (x >= 0 && x < Width && y >= 0 && y < Height)
-                return grid[y, x];
+                return _grid[y, x];
 
             return false;
         }
@@ -113,7 +114,7 @@ namespace JeuDeBalle
                 for (int j = 0; j < Width; ++j)
                 {
                     Console.ForegroundColor = Owner.ConsoleColor;
-                    Console.Write(grid[i, j] ? CELLFORM.ToString() : " ");
+                    Console.Write(_grid[i, j] ? CELLFORM.ToString() : " ");
                     Console.ResetColor();
                 }
 
@@ -134,7 +135,7 @@ namespace JeuDeBalle
             {
                 for (int x = 0; x < Width; ++x)
                 {
-                    if (grid[y, x])  // Si la case est intacte
+                    if (_grid[y, x])  // Si la case est intacte
                     {
                         // Calculer la position de la case
                         float cellX = ConsolePosition.X + x;
@@ -170,7 +171,7 @@ namespace JeuDeBalle
         /// <returns>Retourne vrai si une case est intacte, false si toutes les cases sont détruites</returns>
         public bool IsBuildingIntact()
         {
-            foreach (bool IsCellAlive in grid)
+            foreach (bool IsCellAlive in _grid)
             {
                 if (IsCellAlive)
                     return true;                
