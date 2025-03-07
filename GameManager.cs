@@ -285,8 +285,7 @@ namespace JeuDeBalle
         /// Animation de fin de jeu
         /// </summary>
         public void EndGameAnimation()
-        {
-            // Votre ASCII art "Game Over"
+        {            
             string gameOver = @"
       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
      ░  ██████   █████  ███    ███ ███████     ██████  ██    ██ ███████ █████  ░
@@ -329,7 +328,7 @@ namespace JeuDeBalle
                     Console.Write(" ");
 
                     // Mise à jour de la position
-                    star.X--;
+                    --star.X;
                     if (star.X < 0)
                     {
                         star.X = width - 1;
@@ -342,9 +341,9 @@ namespace JeuDeBalle
                     Console.Write(star.CHARACTER);
                 }
 
-                // Redessiner le texte "Game Over" par-dessus les étoiles
+                // Redessiner le texte "Game Over" par-dessus les étoiles pour éviter que les étoiles n'effacent le texte
                 Console.ResetColor();
-                for (int i = 0; i < lines.Length; i++)
+                for (int i = 0; i < lines.Length; ++i)
                 {
                     int row = gameOverStartRow + i;
                     if (row >= 0 && row < height)

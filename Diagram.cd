@@ -48,11 +48,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="JeuDeBalle.Program">
+  <Class Name="JeuDeBalle.ProgramPrincipal">
     <Position X="14.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Program.cs</FileName>
+      <FileName>ProgramPrincipal.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="JeuDeBalle.ICollidable">
