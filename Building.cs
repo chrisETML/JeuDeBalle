@@ -7,10 +7,12 @@ Description : Classe représentant un bâtiment
 
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
+
+[assembly: InternalsVisibleTo("UnitTestBuilding")]
 namespace JeuDeBalle
 {
-    
     internal class Building : ICollidable, IDamageable, IUpdatable
     {
         
@@ -84,6 +86,9 @@ namespace JeuDeBalle
         /// <param name="y">Axe y de la grille</param>
         public void DestroyBlock(int x, int y)
         {
+            if (x < 0 || y < 0)
+                throw new ArgumentOutOfRangeException("Les indices doivent être >= 0.");
+
             if (x >= 0 && x < Width && y >= 0 && y < Height)
                 _grid[y, x] = false;
         }

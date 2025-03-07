@@ -47,26 +47,35 @@ namespace JeuDeBalle
         /// <param name="currentPlayer">Le joueur qui joue actuellement.</param>
         public void HandleBallCollisionWithBuilding(Building building, Vector2 ballPosition, Player currentPlayer)
         {
-            // Trouver les coordonnées de la case touchée
-            int x = (int)(ballPosition.X - building.ConsolePosition.X);
-            int y = (int)(ballPosition.Y - building.ConsolePosition.Y);
-
-            // Vérifier si la case est intacte et la détruire
-            if (building.IsBlockIntact(x, y))
+            try
             {
-                string soundFile = Environment.CurrentDirectory + @"\sounds\touch.wav";
+                // Trouver les coordonnées de la case touchée
+                int x = (int)(ballPosition.X - building.ConsolePosition.X);
+                int y = (int)(ballPosition.Y - building.ConsolePosition.Y);
 
-                using (SoundPlayer sound = new SoundPlayer(soundFile))
+                // Vérifier si la case est intacte et la détruire
+                if (building.IsBlockIntact(x, y))
                 {
-                    sound.Load();
-                    sound.Play();
+                    string soundFile = Environment.CurrentDirectory + @"\sounds\touch.wav";
+
+                    using (SoundPlayer sound = new SoundPlayer(soundFile))
+                    {
+                        sound.Load();
+                        sound.Play();
+                    }
+
+
+                    building.TakeDamage(new Tuple<int, int>(x, y));
+                    building.Update();
+                    if (building.Owner == currentPlayer)
+                        currentPlayer.PlayerScore -= 5;
+                    else
+                        currentPlayer.PlayerScore += 5;
                 }
-                building.TakeDamage(new Tuple<int, int>(x, y));
-                building.Update();
-                if(building.Owner == currentPlayer)
-                    currentPlayer.PlayerScore -= 5;
-                else 
-                    currentPlayer.PlayerScore += 5;
+            }
+            finally
+            {
+
             }
         }
 

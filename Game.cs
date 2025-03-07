@@ -94,12 +94,12 @@ namespace JeuDeBalle
             Player1 = new Player(x:30, y:33, ConsoleColor.DarkRed, angleMin:30, angleMax:60);
             Player2 = new Player(x:80, y:33, ConsoleColor.DarkCyan, angleMin:120, angleMax:150);
 
-            Building1 = new Building(width: 5, height: 5, owner: Player1, true);
-            Building2 = new Building(width: 5, height: 5, owner: Player2, false);
+            Building1 = new Building(width: 5, height: 5, owner: Player1, positionBuildingLeft: true);
+            Building2 = new Building(width: 5, height: 5, owner: Player2, positionBuildingLeft: false);
 
             Ball = new Ball();
 
-            _gameManager = new GameManager(this);
+            _gameManager = new GameManager(game: this);
 
             IsGameOver = false;
         }
@@ -111,7 +111,7 @@ namespace JeuDeBalle
         {
             string soundFile = Environment.CurrentDirectory + @"\sounds\intro.wav";
 
-            using (SoundPlayer sound = new SoundPlayer(soundFile))
+            using (SoundPlayer sound = new SoundPlayer(soundLocation: soundFile))
             {
                 sound.Load();
                 sound.Play();
